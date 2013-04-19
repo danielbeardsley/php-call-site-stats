@@ -1,14 +1,12 @@
 <?
 
 /*************************************************************************
- * Enables recording and reporting hit / miss stats for each external
- * ->get() callsite.
+ * Allows easy collection of arbitrary line-level stats about
+ * function calls into a particular class in a production environment.
  ************************************************************************/
 trait CallSiteStats {
-
    protected $_callSiteStats = [];
    public $_callSiteSeconds = 0;
-
 
    public function getCallSiteStats() {
       $time = microtime(true);

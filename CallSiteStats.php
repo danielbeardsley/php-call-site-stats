@@ -53,7 +53,7 @@ trait CallSiteStats {
       for ($i=0; $i < $length; $i++) {
          $frame = $trace[$i];
          if (isset($frame['file']) &&
-          $file != __FILE__ &&
+          $frame['file'] != __FILE__ &&
           $this->isExternalCallSite($frame['file'])) {
             return $frame['file'] . ":" . $frame['line'];
          }

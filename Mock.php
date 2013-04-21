@@ -7,8 +7,8 @@ class Mock {
       return $this->getCallSite();
    }
 
-   public function something($x) {
-      $this->recordCallSite($x, 0);
+   public function something() {
+      call_user_func_array([$this, 'recordCallSite'], func_get_args());
    }
 
    protected function isExternalCallSite($file) {

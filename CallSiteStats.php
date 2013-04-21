@@ -12,7 +12,9 @@ trait CallSiteStats {
       $time = microtime(true);
       $outStats = [];
       foreach($this->_callSiteStats as $site => $stats) {
-         $outStats[] = "{$site} {$stats[0]} {$stats[1]}";
+         foreach($stats as $statLine) {
+            $outStats[] = "{$site} {$statLine}";
+         }
       }
       $results = implode("\n", $outStats);
       $this->_callSiteSeconds += microtime(true) - $time;
@@ -20,10 +22,10 @@ trait CallSiteStats {
    }
 
    /**
-    * Records a get / hit count for the function call-site that
-    * called into this class.
+    * Records the passed arguments for the function 
+    * call-site that called into this class.
     */
-   protected function recordCallSite($getCount, $hitCount) {
+   protected function recordCallSite() {
       $time = microtime(true);
       $callSite = $this->getCallSite();
       if (!$callSite) {
@@ -32,10 +34,9 @@ trait CallSiteStats {
 
       if (isset($this->_callSiteStats[$callSite])) {
          $currentStats = &$this->_callSiteStats[$callSite];
-         $currentStats[0] += $getCount;
-         $currentStats[1] += $hitCount;
+         $currentStats[] = implode(' ', func_get_args());
       } else {
-         $this->_callSiteStats[$callSite] = [$getCount, $hitCount];
+         $this->_callSiteStats[$callSite] = [implode(' ', func_get_args())];
       }
       $this->_callSiteSeconds += microtime(true) - $time;
    }

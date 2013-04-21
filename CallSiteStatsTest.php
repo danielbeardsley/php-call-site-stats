@@ -15,6 +15,11 @@ class CallSiteStatsTest extends PHPUnit_Framework_TestCase {
       $m->something(100);
       $stats = $m->getCallSiteStats();
       $this->assertStringEndsWith('/CallSiteStatsTest.php:15 100', $stats);
+
+      $m->something('blah');
+      $statsMore = explode("\n",$m->getCallSiteStats());
+      $this->assertSame($stats, $statsMore[0]);
+      $this->assertStringEndsWith('/CallSiteStatsTest.php:19 blah', $statsMore[1]);
    }
 
    protected function c() {

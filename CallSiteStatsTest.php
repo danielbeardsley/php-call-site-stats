@@ -1,17 +1,17 @@
 <?
 
 require_once __DIR__ . "/CallSiteStats.php";
-require_once __DIR__ . "/Mock.php";
+require_once __DIR__ . "/Caller.php";
 
 class CallSiteStatsTest extends PHPUnit_Framework_TestCase {
    public function testCaptureCallSite() {
-      $m = $this->m();
-      $site = $m->getCallSitePublic();
-      $this->assertStringEndsWith('/Mock.php:7', $site);
+      $c = $this->c();
+      $site = $c->getCallSite();
+      $this->assertStringEndsWith('/Caller.php:6', $site);
    }
 
-   protected function m() {
-      return new Mock();
+   protected function c() {
+      return new Caller();
    }
 }
 

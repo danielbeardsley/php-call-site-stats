@@ -52,14 +52,14 @@ trait CallSiteStats {
 
       for ($i=0; $i < $length; $i++) {
          $frame = $trace[$i];
-         if (isset($frame['file']) && $this->isExternalCallSite($frame['file'])) {
+         if (isset($frame['file']) &&
+          $file != __FILE__ &&
+          $this->isExternalCallSite($frame['file'])) {
             return $frame['file'] . ":" . $frame['line'];
          }
       }
       return null;
    }
 
-   protected function isExternalCallSite($file) {
-      return $file != __FILE__;
-   }
+   abstract protected function isExternalCallSite($file);
 }

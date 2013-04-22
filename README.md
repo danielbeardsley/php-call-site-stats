@@ -7,7 +7,7 @@ basis, but can be used to measure anything.
 
 ### Usage
 
-    // Image you have a class for accessing your cache layer
+    // Imagine you have a simple class for accessing your cache layer
     class Cache {
        public function get($key) {
          //...
@@ -18,6 +18,7 @@ basis, but can be used to measure anything.
     class Cache {
        use CallSiteStats
        
+       // Needed so record call-sites outside of this file
        protected function isExternalCallSite($file) {
           return $file != __FILE__;
        }
@@ -28,7 +29,7 @@ basis, but can be used to measure anything.
        }
     }
 
-    // Use you class like normal
+    // Use your class like you normally would
     // test.php
     $cache = new Cache();
     $value = $cache->get("cachedkey");
@@ -37,6 +38,7 @@ basis, but can be used to measure anything.
     // The sometime later:
     file_put_contents('cache-gets', $cache->getCallSiteStats());
 
+    # See the results
     $> cat cache-gets
     test.php:3 1 1
     test.php:4 1 0

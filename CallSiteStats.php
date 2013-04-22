@@ -11,11 +11,29 @@ trait CallSiteStats {
 
    /**
     * Enable or disable call site stats collection.
+    *
+    * Intended to allow deploying this library with no execution time cost,
+    * and selectively enabling it.
     */
    public static function toggleCallSiteStats($enabled) {
       self::$callSiteStatsEnabled = $enabled;
    }
 
+   /**
+    * Returns a multiline string representing all the collected stats
+    * (one line per call to `recordCallSite()`) in the format:
+    * FILE:LINE ARG1 ARGN...
+    *
+    * Example:
+    *    /path/to/file.php:21 arg1 arg2 ...
+    *    /path/to/file.php:21 arg1 arg2 ...
+    *    /path/to/other.php:37 arg1 arg2 ...
+    *
+    * Where each arg passed to recordCallSite() is written out spearated by 
+    * spaces.
+    *
+    * If CallSiteStats collection has been disabled, this returns null.
+    */
    public function getCallSiteStats() {
       if (!self::$callSiteStatsEnabled) {
          return null;

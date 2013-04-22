@@ -5,10 +5,21 @@
  * function calls into a particular class in a production environment.
  ************************************************************************/
 trait CallSiteStats {
+   protected static $callSiteStatsEnabled = true;
    protected $_callSiteStats = [];
    public $_callSiteSeconds = 0;
 
+   /**
+    * Enable or disable call site stats collection.
+    */
+   public static function toggleCallSiteStats($enabled) {
+      self::$callSiteStatsEnabled = $enabled;
+   }
+
    public function getCallSiteStats() {
+      if (!self::$callSiteStatsEnabled) {
+         return null;
+      }
       $time = microtime(true);
       $outStats = [];
       foreach($this->_callSiteStats as $site => $stats) {
@@ -26,6 +37,10 @@ trait CallSiteStats {
     * call-site that called into this class.
     */
    protected function recordCallSite() {
+      if (!self::$callSiteStatsEnabled) {
+         return null;
+      }
+
       $time = microtime(true);
       $callSite = $this->getCallSite();
       if (!$callSite) {

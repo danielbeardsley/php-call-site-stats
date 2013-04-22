@@ -22,6 +22,13 @@ class CallSiteStatsTest extends PHPUnit_Framework_TestCase {
       $this->assertStringEndsWith('/CallSiteStatsTest.php:19 blah', $statsMore[1]);
    }
 
+   public function testDisable() {
+      $m = new Mock();
+      Mock::toggleCallSiteStats(false);
+      $m->something(100);
+      $this->assertNull($m->getCallSiteStats());
+   }
+
    protected function c() {
       return new Caller();
    }

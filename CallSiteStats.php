@@ -32,11 +32,11 @@ trait CallSiteStats {
          return;
       }
 
+      $data = implode(' ', func_get_args());
       if (isset($this->_callSiteStats[$callSite])) {
-         $currentStats = &$this->_callSiteStats[$callSite];
-         $currentStats[] = implode(' ', func_get_args());
+         $this->_callSiteStats[$callSite][] = $data;
       } else {
-         $this->_callSiteStats[$callSite] = [implode(' ', func_get_args())];
+         $this->_callSiteStats[$callSite] = [$data];
       }
       $this->_callSiteSeconds += microtime(true) - $time;
    }

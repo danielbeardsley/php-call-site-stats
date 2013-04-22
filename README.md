@@ -36,7 +36,7 @@ basis, but can be used to measure anything.
     $value = $cache->get("missingkey");
 
     // The sometime later:
-    file_put_contents('cache-gets', $cache->getCallSiteStats());
+    file_put_contents('cache-gets', $cache->getCallSiteStats(), FILE_APPEND);
 
     # See the results
     $> cat cache-gets

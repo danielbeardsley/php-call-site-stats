@@ -1,4 +1,4 @@
-<?
+<?php
 
 /*************************************************************************
  * Allows easy collection of arbitrary line-level stats about

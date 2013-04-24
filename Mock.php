@@ -1,4 +1,4 @@
-<?
+<?php
 
 class Mock {
    use CallSiteStats;

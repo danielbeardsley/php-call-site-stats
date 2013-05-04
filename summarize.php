@@ -10,6 +10,7 @@ if ($options['stats']) {
    $stats->printRatios();
 }
 
+
 class StatsCollection {
    public function __construct($inStream) {
       while ($line = fgets($inStream)) {
@@ -46,17 +47,22 @@ class StatsCollection {
          $sum = 0;
          $min = null;
          $max = null;
+         $values = [];
          foreach($rows as $rowIndex => $row) {
-            $value = floatval($row[$column]); 
-            $sum += $value;
-            if ($min === null) {
-               $min = $max = $value;
-            }
-            $min = min($min, $value);
-            $max = max($max, $value);
+            $values[] = floatval($row[$column]); 
          }
-         $avg = $sum / count($rows);
-         echo "$key min:$min max:$max avg:$avg";
+         $min = min($values);
+         $max = max($values);
+         $sum = array_sum($values);
+         $avg = $sum / count($values);
+         $sumOfSquares = 0;
+         foreach($values as $value) {
+            $sumOfSquares += $value * $value;
+         }
+         $std = sqrt(($sumOfSquares / count($values)) - $avg*$avg);
+         $std = round($std, 3);
+         $avg = round($avg, 3);
+         echo "$key min:$min max:$max avg:$avg std:$std";
       }
    }
 }

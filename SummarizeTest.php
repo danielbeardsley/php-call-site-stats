@@ -24,8 +24,9 @@ EOT
       $this->assertCommandSuccessful(<<<EOT
 blah.php:23 9
 blah.php:23 4
+blah.php:23 3
 EOT
-      ,'--stats=1', 'blah.php:23 min:4 max:9 avg:6.5');
+      ,'--stats=1', 'blah.php:23 min:3 max:9 avg:5.333 std:2.625');
    }
 
    private function assertCommandSuccessful(

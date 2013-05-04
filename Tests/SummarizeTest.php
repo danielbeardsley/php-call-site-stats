@@ -46,7 +46,7 @@ EOT
       file_put_contents($tempfile, $input);
       $tempfile = escapeshellarg($tempfile);
 
-      $command = "./summarize.php -f $tempfile $arguments 2>&1";
+      $command = __DIR__ . "/../summarize.php -f $tempfile $arguments 2>&1";
       exec($command, $output, $exitcode);
 
       return [$exitcode, implode("\n", $output)];

@@ -1,9 +1,14 @@
 #!/usr/bin/php
 <?
 
-$filename = getopt('f:')['f'];
+$options = getopt('f:',['ratio:','stats:']);
+$filename = $options['f'];
 $stats = new StatsCollection(fopen($filename,'r'));
-$stats->printRatios();
+if ($options['stats']) {
+   $stats->printStats();
+} else if ($options['ratio']) {
+   $stats->printRatios();
+}
 
 class StatsCollection {
    public function __construct($inStream) {
@@ -32,6 +37,26 @@ class StatsCollection {
          }
          $ratio = round(100 * ($sums[$numerator] / $sums[$denominator]), 2);
          echo "$key {$sums[$numerator]} / {$sums[$denominator]} = $ratio%\n";
+      }
+   }
+
+   public function printStats() {
+      $column = 0;
+      foreach($this->lines as $key => $rows) {
+         $sum = 0;
+         $min = null;
+         $max = null;
+         foreach($rows as $rowIndex => $row) {
+            $value = floatval($row[$column]); 
+            $sum += $value;
+            if ($min === null) {
+               $min = $max = $value;
+            }
+            $min = min($min, $value);
+            $max = max($max, $value);
+         }
+         $avg = $sum / count($rows);
+         echo "$key min:$min max:$max avg:$avg";
       }
    }
 }

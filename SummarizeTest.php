@@ -20,6 +20,14 @@ EOT
 );
    }
 
+   public function testStats() {
+      $this->assertCommandSuccessful(<<<EOT
+blah.php:23 9
+blah.php:23 4
+EOT
+      ,'--stats=1', 'blah.php:23 min:4 max:9 avg:6.5');
+   }
+
    private function assertCommandSuccessful(
     $input, $arguments, $expectedOutput) {
       list($exitcode, $output) = $this->exec($input, $arguments);

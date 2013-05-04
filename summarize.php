@@ -1,4 +1,4 @@
-<?
+<?php
 
 $options = getopt('f:',['ratio:','stats:']);
 $filename = $options['f'];

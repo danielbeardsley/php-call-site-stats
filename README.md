@@ -58,20 +58,22 @@ even worth it.
 Once you've run the code for a bit, you'll end up with a large file that looks
 like this:
 
-   /path/to/file.php:21 arg1 arg2
-   /path/to/file.php:21 arg1 arg2
-   /path/to/other.php:37 arg1 arg2
+    /path/to/file.php:21 arg1 arg2
+    /path/to/file.php:21 arg1 arg2
+    /path/to/other.php:37 arg1 arg2
 
 call-site-stats includes tools to reduce and summarize this data to useful statistics about
 each call site.
 
-   # For hit / get ratios specify two columns
-   $ summarize -f stats.dat --ratio=1,2
-   /path/to/file.php:21 31/90=30%
-   /path/to/other.php:21 413/432=96%
+For hit / get ratios specify two columns
 
-   # For in-depth stats specify one column
-   $ summarize -f stats.dat --stats=1
-   /path/to/file.php:21 min:0 max:13 avg:7.2 std:2.1 90avg:5.4
-   /path/to/other.php:21 min:2 max:93 avg:38 std:2.1 90avg:27
+    $ summarize -f stats.dat --ratio=1:2
+    /path/to/file.php:21 31/90=30%
+    /path/to/other.php:21 413/432=96%
+    
+For in-depth stats specify one column
+
+    $ summarize -f stats.dat --stats=1
+    /path/to/file.php:21 min:0 max:13 avg:7.2 std:2.1
+    /path/to/other.php:21 min:2 max:93 avg:38 std:3.7
 

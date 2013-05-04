@@ -3,17 +3,17 @@
 class SummarizeTest extends PHPUnit_Framework_TestCase {
    public function testRatios() {
       $this->assertCommandSuccessful(<<<EOT
-blah.php:23 3 7
-blah.php:23 2 3
+blah.php:23 blah 3 7
+blah.php:23 blah 2 3
 EOT
-      ,'--ratio=1,2', 'blah.php:23 5 / 10 = 50%');
+      ,'--ratio=2:3', 'blah.php:23 5 / 10 = 50%');
       $this->assertCommandSuccessful(<<<EOT
 other.php:9 9 10
 blah.php:23 2 3
 other.php:9 100 101
 blah.php:23 2 3
 EOT
-      ,'--ratio=1,2', <<<EOT
+      ,'--ratio=1:2', <<<EOT
 other.php:9 109 / 111 = 98.2%
 blah.php:23 4 / 6 = 66.67%
 EOT
@@ -22,11 +22,11 @@ EOT
 
    public function testStats() {
       $this->assertCommandSuccessful(<<<EOT
-blah.php:23 9
-blah.php:23 4
-blah.php:23 3
+blah.php:23 blah 9
+blah.php:23 blah 4
+blah.php:23 blah 3
 EOT
-      ,'--stats=1', 'blah.php:23 min:3 max:9 avg:5.333 std:2.625');
+      ,'--stats=2', 'blah.php:23 min:3 max:9 avg:5.333 std:2.625');
    }
 
    private function assertCommandSuccessful(

@@ -5,9 +5,11 @@ $options = getopt('f:',['ratio:','stats:']);
 $filename = $options['f'];
 $stats = new StatsCollection(fopen($filename,'r'));
 if ($options['stats']) {
-   $stats->printStats();
+   $column = $options['stats'];
+   $stats->printStats(intval($column) - 1);
 } else if ($options['ratio']) {
-   $stats->printRatios();
+   $columns = explode(':',$options['ratio']);
+   $stats->printRatios(intval($columns[0])-1,intval($columns[1])-1);
 }
 
 
@@ -24,9 +26,7 @@ class StatsCollection {
       $this->lines[$parts[0]][] = array_slice($parts, 1);
    }
 
-   public function printRatios() {
-      $numerator = 0;
-      $denominator = 1;
+   public function printRatios($numerator, $denominator) {
       $firstLine = reset($this->lines);
       $blankSumRow = array_fill(0,count($firstLine[0]),0);
       foreach($this->lines as $key => $rows) {
@@ -41,8 +41,7 @@ class StatsCollection {
       }
    }
 
-   public function printStats() {
-      $column = 0;
+   public function printStats($column) {
       foreach($this->lines as $key => $rows) {
          $sum = 0;
          $min = null;

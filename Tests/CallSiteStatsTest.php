@@ -1,7 +1,7 @@
 <?php
 
 require_once __DIR__ . "/../CallSiteStats.php";
-require_once __DIR__ . "/../Caller.php";
+require_once __DIR__ . "/Caller.php";
 
 class CallSiteStatsTest extends PHPUnit_Framework_TestCase {
    public function testCaptureCallSite() {

@@ -1,4 +1,3 @@
-#!/usr/bin/php
 <?
 
 $options = getopt('f:',['ratio:','stats:']);

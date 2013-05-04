@@ -1,0 +1,4 @@
+#!/usr/bin/php
+<?
+
+require __DIR__ . "/../summarize.php";

@@ -3,10 +3,10 @@
 $options = getopt('f:',['ratio:','stats:']);
 $filename = $options['f'];
 $stats = new StatsCollection(fopen($filename,'r'));
-if ($options['stats']) {
+if (isset($options['stats'])) {
    $column = $options['stats'];
    $stats->printStats(intval($column) - 1);
-} else if ($options['ratio']) {
+} else if (isset($options['ratio'])) {
    $columns = explode(':',$options['ratio']);
    $stats->printRatios(intval($columns[0])-1,intval($columns[1])-1);
 }

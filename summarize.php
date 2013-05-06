@@ -60,7 +60,7 @@ class StatsCollection {
          $std = sqrt(($sumOfSquares / count($values)) - $avg*$avg);
          $std = round($std, 3);
          $avg = round($avg, 3);
-         echo "$key min:$min max:$max avg:$avg std:$std";
+         echo "$key min:$min max:$max avg:$avg std:$std\n";
       }
    }
 }

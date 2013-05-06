@@ -31,6 +31,7 @@ trait CallSiteStats {
     *
     * Where each arg passed to recordCallSite() is written out spearated by 
     * spaces.
+    * Note: This format is designed to be post-processed with summarize.php
     *
     * If CallSiteStats collection has been disabled, this returns null.
     */

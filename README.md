@@ -12,38 +12,43 @@ basis, but can be used to measure anything.
 
 Imagine you have a simple class for accessing your cache layer:
 
-    class Cache {
-       public function get($key) {
-         //...
-       }
-    }
+```php
+class Cache {
+   public function get($key) {
+     //...
+   }
+}
+```
 
 Add the following to measure hit-rates on a per-call-site basis:
 
-    class Cache {
-       use CallSiteStats
-       
-       // Needed to record call-sites outside of this file
-       protected function isExternalCallSite($file) {
-          return $file != __FILE__;
-       }
-       
-       public function get($key) {
-         //...
-         $this->recordCallSite($gets = 1, $cacheHit ? 1 : 0);
-       }
-    }
-
+```php
+class Cache {
+   use CallSiteStats
+   
+   // Needed to record call-sites outside of this file
+   protected function isExternalCallSite($file) {
+      return $file != __FILE__;
+   }
+   
+   public function get($key) {
+     //...
+     $this->recordCallSite($gets = 1, $cacheHit ? 1 : 0);
+   }
+}
+```
 
 Use your class like you normally would:
 
-    // test.php
-    $cache = new Cache();
-    $value = $cache->get("cachedkey");
-    $value = $cache->get("missingkey");
+```php
+// test.php
+$cache = new Cache();
+$value = $cache->get("cachedkey");
+$value = $cache->get("missingkey");
 
-    // The sometime later:
-    file_put_contents('cache-gets', $cache->getCallSiteStats(), FILE_APPEND);
+// The sometime later:
+file_put_contents('cache-gets', $cache->getCallSiteStats(), FILE_APPEND);
+```
 
 See the results:
 

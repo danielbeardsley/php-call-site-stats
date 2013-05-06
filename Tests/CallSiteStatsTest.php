@@ -13,7 +13,7 @@ class CallSiteStatsTest extends PHPUnit_Framework_TestCase {
    public function testRecordCallSite() {
       $m = new Mock();
       $m->something(100);
-      $stats = $m->getCallSiteStats();
+      $stats = Mock::getCallSiteStats();
       $this->assertStringEndsWith('/CallSiteStatsTest.php:15 100', $stats);
 
       $m->something('blah');

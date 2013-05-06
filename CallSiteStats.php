@@ -6,8 +6,8 @@
  ************************************************************************/
 trait CallSiteStats {
    protected static $callSiteStatsEnabled = true;
-   protected $_callSiteStats = [];
-   public $_callSiteSeconds = 0;
+   protected static $_callSiteStats = [];
+   public static $_callSiteSeconds = 0;
 
    /**
     * Enable or disable call site stats collection.
@@ -35,19 +35,19 @@ trait CallSiteStats {
     *
     * If CallSiteStats collection has been disabled, this returns null.
     */
-   public function getCallSiteStats() {
+   public static function getCallSiteStats() {
       if (!self::$callSiteStatsEnabled) {
          return null;
       }
       $time = microtime(true);
       $outStats = [];
-      foreach($this->_callSiteStats as $site => $stats) {
+      foreach(self::$_callSiteStats as $site => $stats) {
          foreach($stats as $statLine) {
             $outStats[] = "{$site} {$statLine}";
          }
       }
       $results = implode("\n", $outStats);
-      $this->_callSiteSeconds += microtime(true) - $time;
+      self::$_callSiteSeconds += microtime(true) - $time;
       return $results;
    }
 
@@ -55,24 +55,24 @@ trait CallSiteStats {
     * Records the passed arguments for the function 
     * call-site that called into this class.
     */
-   protected function recordCallSite() {
+   protected static function recordCallSite() {
       if (!self::$callSiteStatsEnabled) {
          return null;
       }
 
       $time = microtime(true);
-      $callSite = $this->getCallSite();
+      $callSite = self::getCallSite();
       if (!$callSite) {
          return;
       }
 
       $data = implode(' ', func_get_args());
-      if (isset($this->_callSiteStats[$callSite])) {
-         $this->_callSiteStats[$callSite][] = $data;
+      if (isset(self::$_callSiteStats[$callSite])) {
+         self::$_callSiteStats[$callSite][] = $data;
       } else {
-         $this->_callSiteStats[$callSite] = [$data];
+         self::$_callSiteStats[$callSite] = [$data];
       }
-      $this->_callSiteSeconds += microtime(true) - $time;
+      self::$_callSiteSeconds += microtime(true) - $time;
    }
 
    /**
@@ -81,7 +81,7 @@ trait CallSiteStats {
     *
     * Returns null if one can't be found.
     */
-   protected function getCallSite() {
+   protected static function getCallSite() {
       $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 7);
       $length = count($trace);
 
@@ -89,7 +89,7 @@ trait CallSiteStats {
          $frame = $trace[$i];
          if (isset($frame['file']) &&
           $frame['file'] != __FILE__ &&
-          $this->isExternalCallSite($frame['file'])) {
+          self::isExternalCallSite($frame['file'])) {
             return $frame['file'] . ":" . $frame['line'];
          }
       }

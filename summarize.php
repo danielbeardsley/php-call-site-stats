@@ -52,7 +52,8 @@ class StatsCollection {
          $min = min($values);
          $max = max($values);
          $sum = array_sum($values);
-         $avg = $sum / count($values);
+         $count = count($values);
+         $avg = $sum / $count;
          $sumOfSquares = 0;
          foreach($values as $value) {
             $sumOfSquares += $value * $value;
@@ -60,7 +61,7 @@ class StatsCollection {
          $std = sqrt(($sumOfSquares / count($values)) - $avg*$avg);
          $std = round($std, 3);
          $avg = round($avg, 3);
-         echo "$key min:$min max:$max avg:$avg std:$std\n";
+         echo "$key avg:$avg count:$count sum:$sum std:$std min:$min max:$max\n";
       }
    }
 }

@@ -26,7 +26,7 @@ blah.php:23 blah 9
 blah.php:23 blah 4
 blah.php:23 blah 3
 EOT
-      ,'--stats=2', 'blah.php:23 min:3 max:9 avg:5.333 std:2.625');
+      ,'--stats=2', 'blah.php:23 avg:5.333 count:3 sum:16 std:2.625 min:3 max:9');
    }
 
    private function assertCommandSuccessful(

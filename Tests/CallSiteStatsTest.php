@@ -22,11 +22,23 @@ class CallSiteStatsTest extends PHPUnit_Framework_TestCase {
       $this->assertStringEndsWith('/CallSiteStatsTest.php:19 blah', $statsMore[1]);
    }
 
+   public function testRecordCallSiteStackDepth() {
+      $m = new Mock();
+      $m->stackSomething(4);
+      $stats = Mock::getCallSiteStats();
+      $this->assertStringEndsNotWith("end-of-captured-stack 1", $stats);
+
+      $m = new Mock();
+      $m->stackSomething(12);
+      $stats = Mock::getCallSiteStats();
+      $this->assertStringEndsWith('end-of-captured-stack 1', $stats);
+   }
+
    public function testRecordCallSiteArguments() {
       $m = new Mock();
       $m->something('arg1', 'arg2', 'arg3', 'arg4', 'arg5');
       $stats = $m->getCallSiteStats();
-      $this->assertStringEndsWith('/CallSiteStatsTest.php:27 arg1 arg2 arg3 arg4 arg5', $stats);
+      $this->assertStringEndsWith('/CallSiteStatsTest.php:39 arg1 arg2 arg3 arg4 arg5', $stats);
    }
 
    public function testDisable() {

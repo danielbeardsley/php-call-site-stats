@@ -7,6 +7,13 @@
 trait CallSiteStats {
    protected static $callSiteStatsEnabled = true;
    protected static $_callSiteStats = [];
+
+   /**
+    * The number of stack frames below the current one to capture (more == 
+    * slower, higher == greater risk of missingsome stats)
+    */
+   protected static $stackCaptureDepth = 10;
+
    public static $_callSiteSeconds = 0;
 
    /**
@@ -62,11 +69,17 @@ trait CallSiteStats {
 
       $time = microtime(true);
       $callSite = self::getCallSite();
+      $data = implode(' ', func_get_args());
+
+      // If we don't have a call-site it's because we reached the end of our 
+      // partial stack before isExternalCallSite() returned true, meaning all 
+      // the frames we captured were inside the class we were trying to 
+      // measure.
       if (!$callSite) {
-         return;
+         $callSite = "end-of-captured-stack";
+         $data = "1";
       }
 
-      $data = implode(' ', func_get_args());
       if (isset(self::$_callSiteStats[$callSite])) {
          self::$_callSiteStats[$callSite][] = $data;
       } else {
@@ -77,12 +90,13 @@ trait CallSiteStats {
 
    /**
     * Returns a string like "path/to/file.php:123" for the first stack frame 
-    * down the stack) that is NOT inside this file.
+    * down the stack that is NOT inside this file.
     *
     * Returns null if one can't be found.
     */
    protected static function getCallSite() {
-      $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 7);
+      $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS,
+       static::$stackCaptureDepth);
       $length = count($trace);
 
       for ($i=0; $i < $length; $i++) {

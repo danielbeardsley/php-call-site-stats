@@ -1,7 +1,8 @@
 <?php
 
 $options = getopt('f:',['ratio:','stats:']);
-$filename = $options['f'];
+$filename = array_key_exists('f', $options) ? $options['f'] : "php://stdin";
+
 if (isset($options['stats'])) {
    $column = $options['stats'];
    $stats = new StatsCollection('stats', intval($column));
@@ -18,10 +19,11 @@ are expected to be space-delimited. Lines are grouped by column 1.
 Usage:
    summarize --stats=2 -f stats-input.log
    summarize --ratio=3:4 -f stats-input.log
+   cat stats-input.log | summarize --stats=2
 
 Options:
-   -f             Input filename (required)
-   --stats        Calculate min/max/mean/std .. for a given column
+   -f=filename    Input filename (if not specified, STDIN is used)
+   --stats=x      Calculate min/max/mean/std .. for a given column x
    --ratio=x:y    Total and calculate ratio between column x and column y
 HELP;
    exit(1);

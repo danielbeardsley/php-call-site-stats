@@ -29,10 +29,29 @@ EOT
       ,'--stats=2', 'blah.php:23 avg:5.333 count:3 sum:16 std:2.625 min:3 max:9');
    }
 
+   public function testSTDIN() {
+      $this->assertSTDINCommandSuccessful(<<<EOT
+echo "blah.php:23 blah 9
+blah.php:23 blah 4
+blah.php:23 blah 3"
+EOT
+      ,'--stats=2', 'blah.php:23 avg:5.333 count:3 sum:16 std:2.625 min:3 max:9');
+   }
+
    private function assertCommandSuccessful(
     $input, $arguments, $expectedOutput) {
       list($exitcode, $output) = $this->exec($input, $arguments);
-      $this->assertSame($expectedOutput, $output, "Process existed with non-zero status");
+      $this->assertSame($expectedOutput, $output);
+      $this->assertSame(0, $exitcode, "Process existed with non-zero status");
+   }
+
+   private function assertSTDINCommandSuccessful(
+    $input, $arguments, $expectedOutput) {
+      $command = "$input | php " . __DIR__ . "/../summarize.php " . 
+       "$arguments 2>&1";
+      exec($command, $output, $exitcode);
+      $output = implode("\n", $output);
+      $this->assertSame($expectedOutput, $output);
       $this->assertSame(0, $exitcode, "Process existed with non-zero status");
    }
 

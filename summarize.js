@@ -32,6 +32,30 @@ if (options.stats) {
    });
 }
 
+if (options.ratio) {
+   var columns     = options.ratio.split(':');
+   var numerator   = parseInt(columns[0],10);
+   var denominator = parseInt(columns[1],10);
+
+   grouper.newGroup = function() {
+      return [0, 0];
+   };
+
+   grouper.eachLine = function(stats, parts) {
+      stats[0] += parseInt(parts[numerator],   10);
+      stats[1] += parseInt(parts[denominator], 10);
+   };
+
+   lineStream.on('end', function() {
+      grouper.eachGroup(function(key, stats) {
+         console.log(key + 
+            " "  + num(stats[0]) + " / " + + num(stats[1])  + 
+            " = " + (pct(stats[0] / stats[1])) + "%"
+         ); 
+      });
+   });
+}
+
 lineStream.on('line', grouper.push);
 
 /**
@@ -58,6 +82,9 @@ function lineGrouper() {
    };
 }
 
+function pct(x) {
+   return Math.round(x*10000) / 100;
+}
 function num(x) {
    return Math.round(x*1000) / 1000;
 }

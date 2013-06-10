@@ -1,4 +1,3 @@
-#!/usr/bin/php
-<?
+#!/bin/bash
 
-require __DIR__ . "/../summarize.php";
+node summarize.js $*

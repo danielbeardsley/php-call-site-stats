@@ -6,7 +6,7 @@ class SummarizeTest extends PHPUnit_Framework_TestCase {
 blah.php:23 blah 3 7
 blah.php:23 blah 2 3
 EOT
-      ,'--ratio=2:3', 'blah.php:23 5 / 10 = 50%');
+      ,'--ratio=2:3', 'blah.php:23 diff:5 5 / 10 = 50%');
       $this->assertCommandSuccessful(<<<EOT
 other.php:9 9 10
 blah.php:23 2 3
@@ -14,8 +14,8 @@ other.php:9 100 101
 blah.php:23 2 3
 EOT
       ,'--ratio=1:2', <<<EOT
-other.php:9 109 / 111 = 98.2%
-blah.php:23 4 / 6 = 66.67%
+other.php:9 diff:2 109 / 111 = 98.2%
+blah.php:23 diff:2 4 / 6 = 66.67%
 EOT
 );
    }

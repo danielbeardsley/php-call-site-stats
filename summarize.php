@@ -78,8 +78,9 @@ class StatsCollection {
       foreach($this->lines as $key => $stats) {
          $num = $stats[0];
          $den = $stats[1];
+         $diff = $den - $num;
          $pct = round(100 * ($num / $den), 2);
-         echo "$key $num / $den = $pct%\n";
+         echo "$key diff:{$diff} $num / $den = $pct%\n";
       }
    }
 

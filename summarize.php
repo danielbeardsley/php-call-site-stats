@@ -94,6 +94,9 @@ class StatsCollection {
          $count = $stats->n();
          $avg = $stats->mean();
          $std = $stats->standard_deviation();
+         $min = round($min, 3);
+         $max = round($max, 3);
+         $sum = round($sum, 3);
          $std = round($std, 3);
          $avg = round($avg, 3);
          echo "$key avg:$avg count:$count sum:$sum std:$std min:$min max:$max\n";
